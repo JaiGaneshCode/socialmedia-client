@@ -61,7 +61,7 @@ const DELETE_COMMENT = gql`
         deleteComment(postId: $postId, commentId: $commentId){
            id
            comments{
-               id username createdAt body
+               id user{id username} createdAt body
            } 
            commentCount
         }

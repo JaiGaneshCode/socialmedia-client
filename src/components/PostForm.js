@@ -65,17 +65,17 @@ const CREATE_POST_MUTATION = gql`
       id
       body
       createdAt
-      username
+      user { id username }
       likes {
         id
-        username
+        user { id username }
         createdAt
       }
       likeCount
       comments {
         id
         body
-        username
+        user { id username }
         createdAt
       }
       commentCount

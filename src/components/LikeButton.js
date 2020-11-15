@@ -8,7 +8,7 @@ function LikeButton({ user, post: { id, likes, likeCount } }){
     const [liked, setLiked] = useState(false);
 
     useEffect(() => {
-        if(user && likes && likes.find(like => like.username === user.username)){
+        if(user && likes && likes.find(like => like.user.id === user.id)){
             setLiked(true);
         }else{
             setLiked(false);
@@ -50,7 +50,7 @@ const LIKE_POST = gql`
         likePost(postId: $postId){
             id
             likes{
-                id username
+                id user{ id username }
             }
             likeCount
         }

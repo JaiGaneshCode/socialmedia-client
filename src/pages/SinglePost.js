@@ -43,7 +43,7 @@ function SinglePost(props){
     if(!getPost){
         postMarkUp= "<p>Loading Post...</p>";
     }else{
-        const { id, body, createdAt, username, likeCount, comments, likes, commentCount } = getPost;
+        const { id, body, createdAt, user: {id: userId, username}, likeCount, comments, likes, commentCount } = getPost;
 
         postMarkUp = (
             <Grid>
@@ -69,7 +69,7 @@ function SinglePost(props){
                                         {commentCount}
                                     </Label>
                                 </Button>
-                                {user && user.username === username && <DeleteButton postId={id} callback={deletePostCallback} /> }
+                                {user && user.id === userId && <DeleteButton postId={id} callback={deletePostCallback} /> }
                             </Card.Content>
                         </Card>
                         {user && (
@@ -97,8 +97,8 @@ function SinglePost(props){
                         { comments.map(comment =>(
                             <Card fluid key={comment.id}>
                                 <Card.Content>
-                                    {user && user.username === comment.username &&<DeleteButton postId={id} commentId={comment.id}/>}
-                                    <Card.Header>{comment.username}</Card.Header>
+                                    {user && user.id === comment.user.id &&<DeleteButton postId={id} commentId={comment.id}/>}
+                                    <Card.Header>{comment.user.username}</Card.Header>
                                     <Card.Meta>{moment(comment.createdAt).fromNow()}</Card.Meta>
                                     <Card.Description>{comment.body}</Card.Description>
                                 </Card.Content>
@@ -116,13 +116,13 @@ function SinglePost(props){
 const FETCH_POST = gql`
  query($postId: ID!){
     getPost(postId: $postId){
-        id body username createdAt likeCount
+        id body user{id username} createdAt likeCount
         likes{
-            username
+            user{id username}
         }
         commentCount
         comments{
-            id username createdAt body
+            id user{id username} createdAt body
         }
     }
  }
@@ -133,7 +133,7 @@ const ADD_COMMENT = gql`
         createComment(postId: $postId, body: $body){
             id
             comments{
-                id body createdAt username
+                id body createdAt user{id username}
             }
             commentCount
         }
