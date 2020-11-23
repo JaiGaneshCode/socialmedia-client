@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { FETCH_POST, ADD_COMMENT } from '../utils/graphql';
 import React,{ useContext, useRef, useState} from 'react';
 import {Button, Card, Grid, Image} from 'semantic-ui-react';
 import moment from 'moment';
@@ -61,7 +61,7 @@ function SinglePost(props){
                             <hr/>
                             <Card.Content extra>
                                 <LikeButton user= {user} post= {{id, likes, likeCount}}/>
-                                <Button as="div" labelPosition="right" onClick={() => console.log("Comment post")}>
+                                <Button as="div" labelPosition="right">
                                     <Button basic color="violet">
                                         <Icon name="comments"/>
                                     </Button>
@@ -112,32 +112,5 @@ function SinglePost(props){
 
     return postMarkUp;
 }
-
-const FETCH_POST = gql`
- query($postId: ID!){
-    getPost(postId: $postId){
-        id body user{id username} createdAt likeCount
-        likes{
-            user{id username}
-        }
-        commentCount
-        comments{
-            id user{id username} createdAt body
-        }
-    }
- }
-`
-
-const ADD_COMMENT = gql`
-    mutation($postId: ID!, $body: String!){
-        createComment(postId: $postId, body: $body){
-            id
-            comments{
-                id body createdAt user{id username}
-            }
-            commentCount
-        }
-    }
-`
 
 export default SinglePost;

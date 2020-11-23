@@ -1,14 +1,17 @@
-import gql from 'graphql-tag';
-import React, { useState, useContext } from 'react'
-import {useMutation} from '@apollo/react-hooks'
-import {Button, Form} from 'semantic-ui-react'
+import { LOGIN_USER } from '../utils/graphql';
+import React, { useState, useContext } from 'react';
+import {useMutation} from '@apollo/react-hooks';
+import {Button, Form} from 'semantic-ui-react';
 
-import { AuthContext } from '../context/auth'
+import { AuthContext } from '../context/auth';
+import { useNotificationDispatch } from '../context/notification';
 import { useForm } from '../utils/hooks';
 
 function Login(props) {
 
     const context = useContext(AuthContext);
+
+    const dispatch = useNotificationDispatch();
 
     const [errors, setErrors] = useState({});
 
@@ -17,9 +20,10 @@ function Login(props) {
         password: ''
     });
 
-    const [loginUser, {loading}] = useMutation(LOGIN,{
+    const [loginUser, {loading}] = useMutation(LOGIN_USER,{
         update(_, { data: {login: userData } }){
             context.login(userData);
+            dispatch({type: "ADD_USERDETAILS", payload: userData })
             props.history.push("/");
         },
         onError(err){
@@ -70,21 +74,5 @@ function Login(props) {
         </div>
     )
 }
-
-const LOGIN = gql`
-  mutation login(
-    $email: String!
-    $password: String!
-  ) {
-    login(email: $email password: $password) 
-    {
-      id
-      email
-      username
-      createdAt
-      token
-    }
-  }
-`;
 
 export default Login;

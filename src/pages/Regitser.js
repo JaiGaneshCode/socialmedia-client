@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { REGISTER_USER } from '../utils/graphql';
 import React, { useState, useContext } from 'react'
 import {useMutation} from '@apollo/react-hooks'
 import {Button, Form} from 'semantic-ui-react'
@@ -89,29 +89,5 @@ function Regitser(props) {
         </div>
     )
 }
-
-const REGISTER_USER = gql`
-  mutation register(
-    $username: String!
-    $email: String!
-    $password: String!
-    $confirmPassword: String!
-  ) {
-    register(
-      registerInput: {
-        username: $username
-        email: $email
-        password: $password
-        confirmPassword: $confirmPassword
-      }
-    ) {
-      id
-      email
-      username
-      createdAt
-      token
-    }
-  }
-`;
 
 export default Regitser;
