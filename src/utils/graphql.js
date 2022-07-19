@@ -228,6 +228,10 @@ export const FETCH_POSTS_QUERY = gql`
       user {
         id
         username
+        file{
+          id
+          path
+        }
       }
       likeCount
       likes {
@@ -258,6 +262,10 @@ export const FETCH_POST = gql`
       user {
         id
         username
+        file {
+          id
+          path
+        }
       }
       createdAt
       likeCount

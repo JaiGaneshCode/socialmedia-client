@@ -43,13 +43,18 @@ function SinglePost(props){
     if(!getPost){
         postMarkUp= "<p>Loading Post...</p>";
     }else{
-        const { id, body, createdAt, user: {id: userId, username}, likeCount, comments, likes, commentCount } = getPost;
+        const { id, body, createdAt, user: {id: userId, username, file:{path}}, likeCount, comments, likes, commentCount } = getPost;
+        console.log("Test:" + path);
 
         postMarkUp = (
             <Grid>
                 <Grid.Row>
                     <Grid.Column width={2}>
-                        <Image floated='right' size='small' src='https://react.semantic-ui.com/images/avatar/large/molly.png'/>
+                        <Image floated='right' size='small' src={path && path.trim()!='' ? (
+                                    "http://localhost:4000/" + path
+                                ):(
+                                "https://react.semantic-ui.com/images/avatar/large/molly.png"
+                                )}/>
                     </Grid.Column>
                     <Grid.Column width={10}>
                         <Card fluid>

@@ -11,7 +11,7 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 
 let httpLink = createUploadLink({
-    uri: 'https://socialmedia-nodejs-server.herokuapp.com:23305'
+    uri: 'http://localhost:5000'
 });
 
 const authLink = setContext(() => {
@@ -26,7 +26,7 @@ const authLink = setContext(() => {
 httpLink = authLink.concat(httpLink)
 
 const wsLink = new WebSocketLink({
-  uri: `ws://socialmedia-nodejs-server.herokuapp.com:23305/graphql`,
+  uri: `ws://localhost:5000/graphql`,
   options: {
     reconnect: true,
     connectionParams: {

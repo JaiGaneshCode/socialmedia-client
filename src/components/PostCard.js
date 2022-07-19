@@ -15,7 +15,11 @@ function PostCard( { post: {body, createdAt, id, user: userDetails, likeCount, c
     return(
         <Card>
             <Card.Content>
-                <Image floated='right' size='mini' src='https://react.semantic-ui.com/images/avatar/large/molly.png'/>
+                <Image floated='right' size='mini' src={userDetails.file.path && userDetails.file.path.trim()!='' ? (
+                                    "http://localhost:4000/" + userDetails.file.path
+                                ):(
+                                "https://react.semantic-ui.com/images/avatar/large/molly.png"
+                                )}/>
                 <Card.Header>{userDetails.username}</Card.Header>
                 <Card.Meta as= {Link} to={`/posts/${id}`}>{moment(createdAt).fromNow(true)}</Card.Meta>
                 <Card.Description>
